@@ -1,5 +1,3 @@
-# config.py
-
 import discord
 from discord.ext import commands
 from discord import app_commands
@@ -10,7 +8,7 @@ class ConfigCog(commands.Cog):
         self.bot = bot
 
     #
-    # PREFIX COMMANDS
+    # --- PREFIX COMMANDS ---
     #
 
     @commands.has_permissions(administrator=True)
@@ -47,7 +45,6 @@ class ConfigCog(commands.Cog):
             else:
                 pos.append(a)
 
-        # positional fallback
         if pos:
             if ip is None:
                 ip = pos[0]
@@ -83,7 +80,6 @@ class ConfigCog(commands.Cog):
         help="Alias for `!config`, admin only."
     )
     async def setserverinfo(self, ctx, *args):
-        # simply delegate to the same logic
         await self.config.callback(self, ctx, *args)
 
 
@@ -105,7 +101,7 @@ class ConfigCog(commands.Cog):
 
 
     #
-    # SLASH COMMANDS
+    # --- SLASH COMMANDS ---
     #
 
     @app_commands.command(
@@ -162,7 +158,6 @@ class ConfigCog(commands.Cog):
         port: int = 25565,
         password: str = None
     ):
-        # just call config_slash under the hood
         await self.config_slash.callback(
             self, interaction, ip=ip, port=port, password=password
         )

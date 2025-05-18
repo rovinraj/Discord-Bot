@@ -1,5 +1,3 @@
-# server_info.py
-
 import asyncio
 import discord
 from discord.ext import commands
@@ -8,7 +6,6 @@ from mcstatus import JavaServer
 
 from utils import get_guild_config, run_rcon_command
 
-# Replace with your test‐guild ID for instant slash syncing
 TEST_GUILD = discord.Object(id=800622420536590346)
 
 class ServerInfoCog(commands.Cog):
@@ -17,7 +14,7 @@ class ServerInfoCog(commands.Cog):
         self.bot = bot
 
     #
-    # PREFIX COMMANDS
+    # --- PREFIX COMMANDS ---
     #
 
     @commands.command(
@@ -162,7 +159,7 @@ class ServerInfoCog(commands.Cog):
             await ctx.send(f"⚠️ RCON error: {e}")
 
     #
-    # SLASH COMMANDS
+    # --- SLASH COMMANDS ---
     #
 
     @app_commands.command(
@@ -280,5 +277,4 @@ class ServerInfoCog(commands.Cog):
             await interaction.response.send_message(f"⚠️ RCON error: {e}")
 
 async def setup(bot: commands.Bot):
-    # Register this Cog
     await bot.add_cog(ServerInfoCog(bot), guild=TEST_GUILD)

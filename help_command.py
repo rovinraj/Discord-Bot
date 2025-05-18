@@ -1,16 +1,12 @@
-# help_command.py
-
 import discord
 from discord.ext import commands
 from discord import app_commands
 
-# commands that need RCON (we’ll mark them with *)
 RCON_COMMANDS = {
     "mctime", "mcseed", "mcstop",
     "mcobjs", "mcstat", "mcleaderboard",
 }
 
-# categories for the command list
 CATEGORIES = {
     "📍 Server Waypoints":    ["waypointadd", "waypointremove", "waypoints", "waypointinfo"],
     "⚙️ Configuration":       ["config", "setserverinfo", "prefix"],
@@ -19,6 +15,9 @@ CATEGORIES = {
     "📊 Stats":               ["mcobjs", "mcstat", "mcleaderboard"],
 }
 
+#
+# --- PREFIX COMMANDS ---
+#
 
 class MyHelp(commands.HelpCommand):
     def __init__(self):
@@ -28,7 +27,6 @@ class MyHelp(commands.HelpCommand):
         })
 
     async def send_bot_help(self, mapping):
-        """Prefix !help (no args)"""
         embed = discord.Embed(title="Help — Command List", color=0x00ff00)
         for cat_name, names in CATEGORIES.items():
             lines = []
@@ -49,7 +47,6 @@ class MyHelp(commands.HelpCommand):
         await self.get_destination().send(embed=embed)
 
     async def send_command_help(self, command):
-        """Prefix !help <command>"""
         embed = discord.Embed(
             title=f"!{command.name}",
             description=command.help or "No description available.",
@@ -63,9 +60,11 @@ class MyHelp(commands.HelpCommand):
     async def send_error_message(self, error):
         await self.get_destination().send(f"❌ {error}")
 
+#
+# --- SLASH COMMANDS ---
+#
 
 class HelpCog(commands.Cog):
-    """Adds a /help slash command mirroring the prefix help."""
 
     def __init__(self, bot: commands.Bot):
         self.bot = bot
@@ -78,7 +77,6 @@ class HelpCog(commands.Cog):
         command="(Optional) Name of a command to get detailed help"
     )
     async def help_slash(self, interaction: discord.Interaction, command: str = None):
-        # If a command name was given, show detailed help
         if command:
             cmd = self.bot.get_command(command)
             if not cmd:
@@ -86,7 +84,6 @@ class HelpCog(commands.Cog):
                     f"❌ Unknown command `{command}`",
                     ephemeral=True
                 )
-            # build the same embed as prefix help would
             embed = discord.Embed(
                 title=f"/{cmd.name}",
                 description=cmd.help or "No description available.",
@@ -95,8 +92,7 @@ class HelpCog(commands.Cog):
             if cmd.name in RCON_COMMANDS:
                 embed.set_footer(text="* requires RCON")
             return await interaction.response.send_message(embed=embed, ephemeral=True)
-
-        # Otherwise, show the full command list
+        
         embed = discord.Embed(title="Help — Command List", color=0x00ff00)
         for cat_name, names in CATEGORIES.items():
             lines = []
@@ -109,7 +105,6 @@ class HelpCog(commands.Cog):
                 embed.add_field(name=cat_name, value="\n".join(lines), inline=False)
         embed.set_footer(text="* commands require RCON")
         await interaction.response.send_message(embed=embed, ephemeral=True)
-
 
 async def setup(bot: commands.Bot):
     await bot.add_cog(HelpCog(bot))

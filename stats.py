@@ -1,5 +1,3 @@
-# stats.py
-
 import asyncio
 import re
 import discord
@@ -15,7 +13,7 @@ class StatsCog(commands.Cog):
         self.bot = bot
 
     #
-    # PREFIX COMMANDS
+    # --- PREFIX COMMANDS ---
     #
 
     @commands.command(
@@ -103,7 +101,7 @@ class StatsCog(commands.Cog):
             await ctx.send(f"⚠️ Error: {e}")
 
     #
-    # SLASH COMMANDS
+    # --- SLASH COMMANDS ---
     #
 
     @app_commands.command(

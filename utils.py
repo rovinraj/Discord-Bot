@@ -5,7 +5,6 @@ from mcrcon import MCRcon
 
 load_dotenv()
 
-# Defaults & paths
 DEFAULT_IP            = os.getenv("MC_IP", "mc.hypixel.net")
 DEFAULT_PORT          = int(os.getenv("MC_PORT", "25565"))
 DEFAULT_RCON_PASSWORD = os.getenv("MC_RCON_PASSWORD", "")

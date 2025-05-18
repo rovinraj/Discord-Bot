@@ -11,7 +11,7 @@ class WaypointPaginator(View):
         self.pages = pages
         self.current = 0
         self.author = author
-        self.footer_texts = footer_texts  # list of "Page X/Y"
+        self.footer_texts = footer_texts
     async def on_timeout(self):
         for b in self.children: b.disabled = True
         await self.message.edit(view=self)
